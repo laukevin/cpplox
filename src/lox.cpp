@@ -55,7 +55,6 @@ namespace CppLox
   {
     std::string contents;
     readFile(file_loc, contents);
-    std::cout << "file loc" << file_loc << std::endl;
     run(contents);
     if (hadError)
     {
@@ -70,7 +69,6 @@ namespace CppLox
       std::string line;
       if (std::getline(std::cin, line))
       {
-        std::cout << "You entered: " << line << std::endl;
         run(line);
       }
       else

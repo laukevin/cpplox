@@ -3,6 +3,7 @@
 #include <vector>
 #include <variant>
 
+#include <iostream>
 #include "cpplox/token.h"
 #include "cpplox/tokentype.h"
 
@@ -10,7 +11,7 @@ namespace CppLox
 {
   std::string Token::literalString() const
   {
-    return std::visit([](auto &&arg) -> std::string
+    return std::visit([](const auto &arg) -> std::string
                       {
         using T = std::decay_t<decltype(arg)>;
         if constexpr (std::is_same_v<T, std::nullptr_t>)

@@ -4,6 +4,7 @@
 #include <any>
 #include <string>
 #include <variant>
+#include <utility>
 
 #include "tokentype.h"
 
@@ -14,15 +15,15 @@ namespace CppLox
   class Token
   {
   public:
-    Token(TokenType type, const std::string &lexeme, const LiteralType &literal, int line)
-        : type(type), lexeme(lexeme), literal(literal), line(line) {}
+    Token(TokenType type, std::string &&lexeme, LiteralType &&literal, int line)
+        : type(type), lexeme(std::move(lexeme)), literal(std::move(literal)), line(line) {}
 
     std::string toString() const;
 
   private:
     const TokenType type;
-    const std::string &lexeme;
-    const LiteralType &literal;
+    const std::string lexeme;
+    const LiteralType literal;
     const int line;
 
     std::string literalString() const;

@@ -1,6 +1,7 @@
 #ifndef CPPLOX_TOKENTYPE_H
 #define CPPLOX_TOKENTYPE_H
 
+#include <iostream>
 #include <vector>
 #include <string>
 

@@ -11,5 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(include)
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
+set(CMAKE_OSX_SYSROOT "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk")
+
 # Add the executable
 add_executable(cpplox ${SOURCES})
