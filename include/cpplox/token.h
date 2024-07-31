@@ -19,13 +19,12 @@ namespace CppLox
         : type(type), lexeme(std::move(lexeme)), literal(std::move(literal)), line(line) {}
 
     std::string toString() const;
-
-  private:
     const TokenType type;
-    const std::string lexeme;
     const LiteralType literal;
+    const std::string lexeme;
     const int line;
 
+  private:
     std::string literalString() const;
   };
 } // namespace CppLox

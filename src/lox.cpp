@@ -7,7 +7,9 @@
 
 #include "cpplox/lox.h"
 #include "cpplox/scanner.h"
+#include "cpplox/parser.h"
 #include "cpplox/token.h"
+#include "cpplox/tokentype.h"
 
 static int hadError = false;
 
@@ -16,6 +18,18 @@ namespace CppLox
   void lox::error(int line, const std::string &message)
   {
     report(line, "", message);
+  }
+
+  void lox::error(Token token, const std::string &message)
+  {
+    if (token.type == TokenType::EOF_)
+    {
+      report(token.line, " at end", message);
+    }
+    else
+    {
+      report(token.line, " at '" + token.lexeme + "'", message);
+    }
   }
 
   void lox::report(int line, const std::string &where, const std::string &message)
@@ -30,6 +44,11 @@ namespace CppLox
   {
     Scanner scanner = Scanner(source);
     std::vector<Token> tokens = scanner.scanTokens();
+    Parser parser = Parser(tokens);
+    ExprPtr expr = parser.parse();
+
+    if (hadError)
+      return;
 
     for (const auto &token : tokens)
     {
