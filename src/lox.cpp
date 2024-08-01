@@ -6,6 +6,8 @@
 #include <cstdlib>
 
 #include "cpplox/lox.h"
+#include "cpplox/expr.h"
+#include "cpplox/astprinter.h"
 #include "cpplox/scanner.h"
 #include "cpplox/parser.h"
 #include "cpplox/token.h"
@@ -101,6 +103,25 @@ namespace CppLox
 
 int main(int argc, char *argv[])
 {
+  // using namespace CppLox;
+
+  // ExprPtr unaryA = std::make_unique<Unary>(
+  //     Token(TokenType::MINUS, "-", nullptr, 1),
+  //     std::make_unique<Literal>(123));
+
+  // Token op = Token(TokenType::STAR, "*", nullptr, 1);
+  // ExprPtr unaryB = std::make_unique<Grouping>(
+  //     std::make_unique<Literal>(45.67));
+
+  // Binary expression = Binary(
+  //     std::move(unaryA),
+  //     std::move(op),
+  //     std::move(unaryB));
+
+  // AstPrinter printer;
+  // std::any res = printer.print(expression);
+  // std::cout << std::any_cast<std::string>(res) << std::endl;
+
   if (argc > 2)
   {
     std::cout << "test program" << std::endl;

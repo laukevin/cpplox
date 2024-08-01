@@ -2,6 +2,7 @@
 #pragma once
 #include <memory>
 #include <utility>
+#include <any>
 
 #include "token.h"
 
@@ -13,46 +14,42 @@ namespace CppLox
   class Literal;
   class Unary;
 
-  // Base Visitor interface
   class BaseExprVisitor
   {
   public:
-    virtual void visitBinaryExpr(const Binary &expr) = 0;
-    virtual void visitGroupingExpr(const Grouping &expr) = 0;
-    virtual void visitLiteralExpr(const Literal &expr) = 0;
-    virtual void visitUnaryExpr(const Unary &expr) = 0;
+    virtual ~BaseExprVisitor() = default;
   };
 
-  // Template Visitor interface
   template <typename R>
   class ExprVisitor : public BaseExprVisitor
   {
   public:
-    virtual void visitBinaryExpr(const Binary &expr) = 0;
-    virtual void visitGroupingExpr(const Grouping &expr) = 0;
-    virtual void visitLiteralExpr(const Literal &expr) = 0;
-    virtual void visitUnaryExpr(const Unary &expr) = 0;
+    virtual R visitBinaryExpr(const Binary *expr) = 0;
+    virtual R visitGroupingExpr(const Grouping *expr) = 0;
+    virtual R visitLiteralExpr(const Literal *expr) = 0;
+    virtual R visitUnaryExpr(const Unary *expr) = 0;
   };
 
-  // Base Expr class
   class Expr
   {
   public:
     virtual ~Expr() = default;
-
-    virtual void accept(BaseExprVisitor &visitor) const = 0;
+    virtual std::any accept(BaseExprVisitor &visitor) const = 0;
   };
 
   using ExprPtr = std::unique_ptr<Expr>;
 
-  class Binary : public Expr
+  struct Binary : public Expr
   {
-  public:
+
     Binary(ExprPtr left, Token op, ExprPtr right) : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
 
-    void accept(BaseExprVisitor &visitor) const override
+    std::any accept(BaseExprVisitor &visitor) const override
     {
-      visitor.visitBinaryExpr(*this);
+      auto visitor_ptr = dynamic_cast<ExprVisitor<std::any> *>(&visitor);
+      if (visitor_ptr)
+        return std::any(visitor_ptr->visitBinaryExpr(this));
+      return std::any();
     }
 
     ExprPtr left;
@@ -62,14 +59,17 @@ namespace CppLox
 
   using BinaryPtr = std::unique_ptr<Binary>;
 
-  class Grouping : public Expr
+  struct Grouping : public Expr
   {
-  public:
+
     Grouping(ExprPtr expression) : expression(std::move(expression)) {}
 
-    void accept(BaseExprVisitor &visitor) const override
+    std::any accept(BaseExprVisitor &visitor) const override
     {
-      visitor.visitGroupingExpr(*this);
+      auto visitor_ptr = dynamic_cast<ExprVisitor<std::any> *>(&visitor);
+      if (visitor_ptr)
+        return std::any(visitor_ptr->visitGroupingExpr(this));
+      return std::any();
     }
 
     ExprPtr expression;
@@ -77,14 +77,17 @@ namespace CppLox
 
   using GroupingPtr = std::unique_ptr<Grouping>;
 
-  class Literal : public Expr
+  struct Literal : public Expr
   {
-  public:
+
     Literal(LiteralType value) : value(std::move(value)) {}
 
-    void accept(BaseExprVisitor &visitor) const override
+    std::any accept(BaseExprVisitor &visitor) const override
     {
-      visitor.visitLiteralExpr(*this);
+      auto visitor_ptr = dynamic_cast<ExprVisitor<std::any> *>(&visitor);
+      if (visitor_ptr)
+        return std::any(visitor_ptr->visitLiteralExpr(this));
+      return std::any();
     }
 
     LiteralType value;
@@ -92,14 +95,17 @@ namespace CppLox
 
   using LiteralPtr = std::unique_ptr<Literal>;
 
-  class Unary : public Expr
+  struct Unary : public Expr
   {
-  public:
+
     Unary(Token op, ExprPtr right) : op(std::move(op)), right(std::move(right)) {}
 
-    void accept(BaseExprVisitor &visitor) const override
+    std::any accept(BaseExprVisitor &visitor) const override
     {
-      visitor.visitUnaryExpr(*this);
+      auto visitor_ptr = dynamic_cast<ExprVisitor<std::any> *>(&visitor);
+      if (visitor_ptr)
+        return std::any(visitor_ptr->visitUnaryExpr(this));
+      return std::any();
     }
 
     Token op;

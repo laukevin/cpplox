@@ -1,117 +1,133 @@
 from typing import List
 import argparse
 
-BASE_CLS_TEMPLATE = """
+FILE_TEMPLATE = """
 #pragma once
 #include <memory>
 #include <utility>
+#include <any>
 
 #include "token.h"
 
 namespace CppLox {{
 
-{class_declarations}
+{forward_declarations}
 
-// Base Visitor interface
-class Base{base_class}Visitor
-{{
-public:
-{visitor_methods}
-}};
+{visitor_cls_declarations}
 
-// Template Visitor interface
-template <typename R>
-class {base_class}Visitor : public Base{base_class}Visitor
-{{
-public:
-{visitor_methods}
-}};
-
-// Base Expr class
-class {base_class} 
-{{
-public:
-virtual ~{base_class}() = default;
-
-virtual void accept(Base{base_class}Visitor &visitor) const = 0;
-}};
-
-using {base_class}Ptr = std::unique_ptr<{base_class}>;
-
-{derived_classes}
-
+{derived_cls_declarations}
 }}
 """
 
+VISITOR_CLS_TEMPLATE = """
 
-DERIVED_CLS_TEMPLATE = """
-class {visitor_class} : public {base_class} 
+class Base{base_cls}Visitor
 {{
 public:
+virtual ~Base{base_cls}Visitor() = default;
+}};
+
+template <typename R>
+class {base_cls}Visitor : public Base{base_cls}Visitor
+{{
+public:
+    {virtual_methods}
+}};
+
+class {base_cls}
+{{
+public:
+    virtual ~{base_cls}() = default;
+    virtual std::any accept(Base{base_cls}Visitor &visitor) const = 0;
+}};
+
+using {base_cls}Ptr = std::unique_ptr<{base_cls}>;
+"""
+
+DERIVED_CLS_TEMPLATE = """
+struct {visitor_cls} : public {base_cls}
+{{
+
 {constructor}
 
-void accept(Base{base_class}Visitor &visitor) const override
+std::any accept(Base{base_cls}Visitor &visitor) const override
 {{
-  visitor.visit{visitor_class}{base_class}(*this);
+  auto visitor_ptr = dynamic_cast<{base_cls}Visitor<std::any>*>(&visitor);
+  if (visitor_ptr)
+    return std::any(visitor_ptr->visit{visitor_cls}{base_cls}(this));
+  return std::any();
 }}
 
 {members}
+
 }};
 
-using {visitor_class}Ptr = std::unique_ptr<{visitor_class}>;
+using {visitor_cls}Ptr = std::unique_ptr<{visitor_cls}>;
 """
 
 
-def _build_derived_class(base_cls, visitor_cls, constructor_args):
-    constructor_args = constructor_args.strip()
-    constructor_members = [c.strip() for c in constructor_args.split(",")]
-    constructor_pairs = [c.split(" ") for c in constructor_members]
-
-    constructor_members = [f"{c};" for c in constructor_members]
-    constructor_members = "\n".join(constructor_members)
-
-    constructor_params = ", ".join(
-        [f"{c[1]}(std::move({c[1]}))" for c in constructor_pairs]
-    )
-    constructor = f"{visitor_cls} ({constructor_args}) : {constructor_params} {{}}"
-
-    return DERIVED_CLS_TEMPLATE.format(
-        base_class=base_cls,
-        visitor_class=visitor_cls,
-        constructor=constructor,
-        members=constructor_members,
-    )
-
-
-def _build_visitor_method(base_cls, visitor_cls):
-    return f"virtual void visit{visitor_cls}{base_cls}(const {visitor_cls} &expr) = 0;"
-
-
-def _build_visitor_methods(base_cls, visitor_classes: List[str]):
+def _build_forward_declarations(visitor_class_names: List[str]) -> str:
     return "\n".join(
-        _build_visitor_method(base_cls, visitor_cls) for visitor_cls in visitor_classes
+        [f"class {visitor_class};" for visitor_class in visitor_class_names]
     )
 
 
-def _build_class_declaration(visitor_classes):
-    return "\n".join([f"class {visitor_cls};" for visitor_cls in visitor_classes])
+def _build_visitor_methods(base_class: str, visitor_class_names: List[str]) -> str:
+    return "\n".join(
+        [
+            f"    virtual R visit{visitor_class}{base_class}(const {visitor_class} *{base_class.lower()}) = 0;"
+            for visitor_class in visitor_class_names
+        ]
+    )
+
+
+def _build_member_list(member_list: List[str]) -> str:
+    return "\n".join([f"    {member};" for member in member_list])
+
+
+def _build_constructor(visitor_class, member_list: List[str]) -> str:
+    member_names = [member.split()[1].strip() for member in member_list]
+    return f"{visitor_class}({', '.join(member_list)}) : {', '.join([f'{name}(std::move({name}))' for name in member_names])} {{}}"
+
+
+def _build_derived_class(base_class, visitor_class, member_list):
+    return DERIVED_CLS_TEMPLATE.format(
+        base_cls=base_class,
+        visitor_cls=visitor_class,
+        constructor=_build_constructor(visitor_class, member_list),
+        members=_build_member_list(member_list),
+    )
 
 
 def generate_cpp(output_dir, base_class, vistor_class_info):
     visitor_class_names = [info[0] for info in vistor_class_info]
-    class_declarations = _build_class_declaration(visitor_class_names)
-    derived_classes = [
-        _build_derived_class(base_class, info[0], info[1]) for info in vistor_class_info
-    ]
-    derived_classes = "\n\n".join(derived_classes)
 
-    cpp = BASE_CLS_TEMPLATE.format(
-        base_class=base_class,
-        visitor_methods=_build_visitor_methods(base_class, visitor_class_names),
-        derived_classes=derived_classes,
-        class_declarations=class_declarations,
+    derived_classes = "\n".join(
+        [
+            _build_derived_class(base_class, info[0], info[1].split(","))
+            for info in vistor_class_info
+        ]
     )
-    cpp_file_path = f"{output_dir}/{base_class}.h"
+
+    forward_declartions = _build_forward_declarations(visitor_class_names)
+    visitor_cls_declarations = VISITOR_CLS_TEMPLATE.format(
+        base_cls=base_class,
+        virtual_methods=_build_visitor_methods(base_class, visitor_class_names),
+    )
+    derived_classes = "\n".join(
+        [
+            _build_derived_class(base_class, info[0], info[1].split(","))
+            for info in vistor_class_info
+        ]
+    )
+
+    cpp = FILE_TEMPLATE.format(
+        forward_declarations=forward_declartions,
+        visitor_cls_declarations=visitor_cls_declarations,
+        derived_cls_declarations=derived_classes,
+    )
+
+    cpp_file_path = f"{output_dir}/{base_class.lower()}.h"
     with open(cpp_file_path, "w") as f:
         f.write(cpp)
 

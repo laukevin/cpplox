@@ -1,5 +1,4 @@
-#ifndef CPPLOX_TOKEN_H
-#define CPPLOX_TOKEN_H
+#pragma once
 
 #include <any>
 #include <string>
@@ -11,6 +10,31 @@
 namespace CppLox
 {
   using LiteralType = std::variant<std::nullptr_t, int, double, std::string>;
+
+  struct ToStringVisitor
+  {
+    std::string operator()(std::nullptr_t) const
+    {
+      return "nullptr";
+    }
+    std::string operator()(int value) const
+    {
+      return std::to_string(value);
+    }
+    std::string operator()(double value) const
+    {
+      return std::to_string(value);
+    }
+    std::string operator()(const std::string &value) const
+    {
+      return value;
+    }
+  };
+
+  inline std::string literal_to_string(const LiteralType &var)
+  {
+    return std::visit(ToStringVisitor(), var);
+  }
 
   class Token
   {
@@ -28,5 +52,3 @@ namespace CppLox
     std::string literalString() const;
   };
 } // namespace CppLox
-
-#endif // CPPLOX_TOKEN_H
