@@ -43,27 +43,23 @@ namespace CppLox
 
     std::any visitBinaryExpr(const Binary *expr) override
     {
-      // Implementation of visitBinaryExpr
       return std::any(
           parenthesize(expr->op.lexeme, {*expr->left, *expr->right}));
     }
 
     std::any visitGroupingExpr(const Grouping *expr) override
     {
-      // Implementation of visitGroupingExpr
       return std::any(
           parenthesize("group", {*expr->expression}));
     }
 
     std::any visitLiteralExpr(const Literal *expr) override
     {
-      // Implementation of visitLiteralExpr
       return std::any(literal_to_string(expr->value));
     }
 
     std::any visitUnaryExpr(const Unary *expr) override
     {
-      // Implementation of visitUnaryExpr
       return std::any(parenthesize(expr->op.lexeme, {*expr->right}));
     }
   };

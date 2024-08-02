@@ -31,6 +31,13 @@ namespace CppLox
     }
   };
 
+  // Function to convert LiteralType to std::any
+  inline std::any toAny(const LiteralType &literal)
+  {
+    return std::visit([](auto &&arg) -> std::any
+                      { return std::any(arg); }, literal);
+  }
+
   inline std::string literal_to_string(const LiteralType &var)
   {
     return std::visit(ToStringVisitor(), var);

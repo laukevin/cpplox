@@ -232,7 +232,6 @@ namespace CppLox
     }
 
     double num = std::stod(source.substr(start, current - start));
-    printf("num %f\n", num);
     addToken(TokenType::NUMBER, num);
   }
 

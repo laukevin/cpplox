@@ -12,11 +12,16 @@
 #include "cpplox/parser.h"
 #include "cpplox/token.h"
 #include "cpplox/tokentype.h"
+#include "cpplox/runtime_error.h"
+#include "cpplox/interpreter.h"
 
 static int hadError = false;
+static int hadRuntimeError = false;
 
 namespace CppLox
 {
+  static Interpreter interpreter;
+
   void lox::error(int line, const std::string &message)
   {
     report(line, "", message);
@@ -42,20 +47,32 @@ namespace CppLox
     hadError = true;
   }
 
+  void lox::runtimeError(const RuntimeError &error)
+  {
+    std::cout << "Runtime error: " << error.what() << "[line " << error.op.line << "]" << std::endl;
+    hadRuntimeError = true;
+  }
+
   void run(const std::string &source)
   {
     Scanner scanner = Scanner(source);
     std::vector<Token> tokens = scanner.scanTokens();
-    Parser parser = Parser(tokens);
-    ExprPtr expr = parser.parse();
 
-    if (hadError)
-      return;
+    std::cout << "tokens" << std::endl;
 
     for (const auto &token : tokens)
     {
       std::cout << token.toString() << std::endl;
     }
+
+    Parser parser = Parser(tokens);
+    ExprPtr expr = parser.parse();
+
+    if (hadError)
+      return;
+    if (hadRuntimeError)
+      return;
+    interpreter.interpret(*expr.get());
   }
 
   bool readFile(const std::string &file_loc, std::string &content)

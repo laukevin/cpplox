@@ -1,5 +1,6 @@
 
 #include <vector>
+#include <iostream>
 
 #include "cpplox/expr.h"
 #include "cpplox/parser.h"
@@ -44,7 +45,7 @@ namespace CppLox
       if (check(type))
       {
         advance();
-        true;
+        return true;
       }
     }
     return false;
