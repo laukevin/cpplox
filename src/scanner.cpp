@@ -211,7 +211,6 @@ namespace CppLox
 
     // Trim the surrounding quotes.
     std::string value = source.substr(start + 1, current - start - 2);
-    printf("str %s\n", value.c_str());
     addToken(STRING, std::move(value));
   }
 

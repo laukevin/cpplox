@@ -9,6 +9,8 @@ FILE_TEMPLATE = """
 
 #include "token.h"
 
+using namespace std;
+
 namespace CppLox {{
 
 {forward_declarations}
@@ -101,14 +103,6 @@ def _build_derived_class(base_class, visitor_class, member_list):
 
 def generate_cpp(output_dir, base_class, vistor_class_info):
     visitor_class_names = [info[0] for info in vistor_class_info]
-
-    derived_classes = "\n".join(
-        [
-            _build_derived_class(base_class, info[0], info[1].split(","))
-            for info in vistor_class_info
-        ]
-    )
-
     forward_declartions = _build_forward_declarations(visitor_class_names)
     visitor_cls_declarations = VISITOR_CLS_TEMPLATE.format(
         base_cls=base_class,
@@ -153,8 +147,19 @@ def generate_files(output_dir):
                 "Grouping : ExprPtr expression",
                 "Literal  : LiteralType value",
                 "Unary    : Token op, ExprPtr right",
+                "Variable : Token name",
+                "Assign   : Token name, ExprPtr value",
             ],
-        }
+        },
+        {
+            "base_class": "Stmt",
+            "visitor_classes": [
+                "Block      : vector<StmtPtr> statements",
+                "Expression : ExprPtr expression",
+                "Print      : ExprPtr expression",
+                "Var        : Token name, ExprPtr initializer",
+            ],
+        },
     ]
 
     for ast in ast_list:

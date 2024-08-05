@@ -7,6 +7,7 @@
 
 #include "cpplox/lox.h"
 #include "cpplox/expr.h"
+#include "cpplox/stmt.h"
 #include "cpplox/astprinter.h"
 #include "cpplox/scanner.h"
 #include "cpplox/parser.h"
@@ -58,21 +59,14 @@ namespace CppLox
     Scanner scanner = Scanner(source);
     std::vector<Token> tokens = scanner.scanTokens();
 
-    std::cout << "tokens" << std::endl;
-
-    for (const auto &token : tokens)
-    {
-      std::cout << token.toString() << std::endl;
-    }
-
     Parser parser = Parser(tokens);
-    ExprPtr expr = parser.parse();
+    std::vector<StmtPtr> stmts = parser.parse();
 
     if (hadError)
       return;
     if (hadRuntimeError)
       return;
-    interpreter.interpret(*expr.get());
+    interpreter.interpret(stmts);
   }
 
   bool readFile(const std::string &file_loc, std::string &content)

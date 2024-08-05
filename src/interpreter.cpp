@@ -11,6 +11,7 @@
 
 #include "cpplox/interpreter.h"
 #include "cpplox/runtime_error.h"
+#include "cpplox/environment.h"
 #include "cpplox/lox.h"
 
 namespace CppLox
@@ -30,6 +31,12 @@ namespace CppLox
   {
     const std::type_info &typeInfo = a.type();
     std::cout << "Type: " << demangle(typeInfo.name()) << std::endl;
+  }
+
+  template <typename T>
+  void printUniquePtrType(const std::unique_ptr<T> &ptr)
+  {
+    std::cout << "Type: " << demangle(typeid(*ptr).name()) << std::endl;
   }
 
   std::any Interpreter::visitBinaryExpr(const Binary *expr)
@@ -151,12 +158,14 @@ namespace CppLox
     throw RuntimeError(op, "Both Operands must be a number.");
   }
 
-  void Interpreter::interpret(Expr &expr)
+  void Interpreter::interpret(std::vector<StmtPtr> &stmts)
   {
     try
     {
-      std::any value = evaluate(expr);
-      std::cout << stringify(value) << std::endl;
+      for (auto &stmt : stmts)
+      {
+        execute(*stmt.get());
+      }
     }
     catch (const RuntimeError &error)
     {
@@ -177,4 +186,67 @@ namespace CppLox
     return "Unknown type";
   }
 
+  std::any Interpreter::visitExpressionStmt(const Expression *stmt)
+  {
+    evaluate(*stmt->expression);
+    return std::any();
+  }
+
+  std::any Interpreter::visitPrintStmt(const Print *stmt)
+  {
+    std::any value = evaluate(*stmt->expression);
+    std::cout << stringify(value) << std::endl;
+    return std::any();
+  }
+
+  void Interpreter::execute(const Stmt &stmt)
+  {
+    stmt.accept(*this);
+  }
+
+  std::any Interpreter::visitVarStmt(const Var *stmt)
+  {
+    std::any value = std::any();
+    if (stmt->initializer)
+    {
+      value = evaluate(*stmt->initializer.get());
+    }
+    environment->define(stmt->name.lexeme, value);
+    return std::any();
+  }
+
+  std::any Interpreter::visitVariableExpr(const Variable *expr)
+  {
+    return environment->get(expr->name);
+  }
+
+  std::any Interpreter::visitAssignExpr(const Assign *expr)
+  {
+    std::any value = evaluate(*expr->value.get());
+    environment->assign(expr->name, value);
+    return value;
+  }
+
+  std::any Interpreter::visitBlockStmt(const Block *stmt)
+  {
+    std::shared_ptr<Environment> new_env = std::make_shared<Environment>(this->environment);
+    executeBlock(stmt->statements, new_env);
+    return std::any();
+  }
+
+  void Interpreter::executeBlock(const std::vector<StmtPtr> &stmts, std::shared_ptr<Environment> new_env)
+  {
+    InterpreterBlockManager blockManager(*this, new_env);
+    try
+    {
+      for (const auto &stmt : stmts)
+      {
+        execute(*stmt);
+      }
+    }
+    catch (const RuntimeError &error)
+    {
+      lox::runtimeError(error);
+    }
+  }
 };

@@ -1,6 +1,7 @@
 #include <vector>
 #include <exception>
 #include "expr.h"
+#include "stmt.h"
 #include "token.h"
 
 namespace CppLox
@@ -13,7 +14,7 @@ namespace CppLox
   {
   public:
     Parser(std::vector<Token> tokens) : tokens(std::move(tokens)) {}
-    ExprPtr parse();
+    std::vector<StmtPtr> parse();
 
   private:
     std::vector<Token> tokens;
@@ -34,5 +35,11 @@ namespace CppLox
     Token consume(TokenType type, std::string errorMessage);
     ParserError error(Token token, std::string errorMessage);
     void synchronize();
+    StmtPtr statement();
+    StmtPtr printStatement();
+    StmtPtr expressionStatement();
+    StmtPtr declaration();
+    StmtPtr varDeclaration();
+    std::vector<StmtPtr> block();
   };
 }

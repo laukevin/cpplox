@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "cpplox/expr.h"
+#include "cpplox/stmt.h"
 #include "cpplox/parser.h"
 #include "cpplox/lox.h"
 #include "cpplox/tokentype.h"
@@ -66,6 +67,11 @@ namespace CppLox
     if (match({TokenType::TRUE}))
     {
       return std::make_unique<Literal>(true);
+    }
+
+    if (match({TokenType::IDENTIFIER}))
+    {
+      return std::make_unique<Variable>(previous());
     }
 
     if (match({TokenType::NIL}))
@@ -190,15 +196,82 @@ namespace CppLox
     }
   }
 
-  ExprPtr Parser::parse()
+  std::vector<StmtPtr> Parser::parse()
+  {
+    std::vector<StmtPtr> statements;
+
+    while (!isAtEnd())
+    {
+      statements.push_back(declaration());
+    }
+    return statements;
+  }
+
+  StmtPtr Parser::statement()
+  {
+    if (match({TokenType::PRINT}))
+    {
+      return printStatement();
+    }
+    if (match({TokenType::LEFT_BRACE}))
+    {
+      return std::make_unique<Block>(std::move(block()));
+    }
+    return expressionStatement();
+  }
+
+  StmtPtr Parser::printStatement()
+  {
+    ExprPtr value = expression();
+    consume(TokenType::SEMICOLON, "Expect ';' after value.");
+    return std::make_unique<Print>(std::move(value));
+  }
+
+  StmtPtr Parser::expressionStatement()
+  {
+    ExprPtr expr = expression();
+    consume(TokenType::SEMICOLON, "Expect ';' after expression.");
+    return std::make_unique<Expression>(std::move(expr));
+  }
+
+  StmtPtr Parser::declaration()
   {
     try
     {
-      return expression();
+      if (match({TokenType::VAR}))
+      {
+        return varDeclaration();
+      }
+      return statement();
     }
-    catch (const ParserError &e)
+    catch (const ParserError &error)
     {
+      synchronize();
       return nullptr;
     }
   }
+
+  StmtPtr Parser::varDeclaration()
+  {
+    Token name = consume(TokenType::IDENTIFIER, "Expect variable name.");
+    ExprPtr initializer = nullptr;
+    if (match({TokenType::EQUAL}))
+    {
+      initializer = expression();
+    }
+    consume(TokenType::SEMICOLON, "Expect ';' after variable declaration.");
+    return std::make_unique<Var>(name, std::move(initializer));
+  }
+
+  std::vector<StmtPtr> Parser::block()
+  {
+    std::vector<StmtPtr> statements;
+    while (!check(TokenType::RIGHT_BRACE) && !isAtEnd())
+    {
+      statements.push_back(declaration());
+    }
+    consume(TokenType::RIGHT_BRACE, "Expect '}' after block.");
+    return statements;
+  }
+
 }
