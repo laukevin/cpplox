@@ -11,6 +11,7 @@ using namespace std;
 namespace CppLox {
 
 class Binary;
+class Call;
 class Grouping;
 class Literal;
 class Unary;
@@ -31,6 +32,7 @@ class ExprVisitor : public BaseExprVisitor
 {
 public:
         virtual R visitBinaryExpr(const Binary *expr) = 0;
+    virtual R visitCallExpr(const Call *expr) = 0;
     virtual R visitGroupingExpr(const Grouping *expr) = 0;
     virtual R visitLiteralExpr(const Literal *expr) = 0;
     virtual R visitUnaryExpr(const Unary *expr) = 0;
@@ -70,6 +72,28 @@ std::any accept(BaseExprVisitor &visitor) const override
 };
 
 using BinaryPtr = std::unique_ptr<Binary>;
+
+
+struct Call : public Expr
+{
+
+Call(ExprPtr callee,  Token paren,  vector<ExprPtr> arguments) : callee(std::move(callee)), paren(std::move(paren)), arguments(std::move(arguments)) {}
+
+std::any accept(BaseExprVisitor &visitor) const override
+{
+  auto visitor_ptr = dynamic_cast<ExprVisitor<std::any>*>(&visitor);
+  if (visitor_ptr)
+    return std::any(visitor_ptr->visitCallExpr(this));
+  return std::any();
+}
+
+    ExprPtr callee;
+     Token paren;
+     vector<ExprPtr> arguments;
+
+};
+
+using CallPtr = std::unique_ptr<Call>;
 
 
 struct Grouping : public Expr

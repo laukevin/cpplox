@@ -28,7 +28,7 @@ namespace CppLox
     report(line, "", message);
   }
 
-  void lox::error(Token token, const std::string &message)
+  void lox::error(const Token &token, const std::string &message)
   {
     if (token.type == TokenType::EOF_)
     {

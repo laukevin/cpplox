@@ -144,6 +144,7 @@ def generate_files(output_dir):
             "base_class": "Expr",
             "visitor_classes": [
                 "Binary   : ExprPtr left, Token op, ExprPtr right",
+                "Call     : ExprPtr callee, Token paren, vector<ExprPtr> arguments",
                 "Grouping : ExprPtr expression",
                 "Literal  : LiteralType value",
                 "Unary    : Token op, ExprPtr right",
@@ -158,7 +159,9 @@ def generate_files(output_dir):
                 "Block      : vector<StmtPtr> statements",
                 "Expression : ExprPtr expression",
                 "Print      : ExprPtr expression",
+                "Return     : Token keyword, ExprPtr value",
                 "Var        : Token name, ExprPtr initializer",
+                "Function   : Token name, vector<Token> params, vector<StmtPtr> body",
                 "If         : ExprPtr condition, StmtPtr thenBranch, StmtPtr elseBranch",
                 "While      : ExprPtr condition, StmtPtr body",
             ],

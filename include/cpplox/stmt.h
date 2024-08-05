@@ -15,7 +15,9 @@ namespace CppLox
   class Block;
   class Expression;
   class Print;
+  class Return;
   class Var;
+  class Function;
   class If;
   class While;
 
@@ -32,7 +34,9 @@ namespace CppLox
     virtual R visitBlockStmt(const Block *stmt) = 0;
     virtual R visitExpressionStmt(const Expression *stmt) = 0;
     virtual R visitPrintStmt(const Print *stmt) = 0;
+    virtual R visitReturnStmt(const Return *stmt) = 0;
     virtual R visitVarStmt(const Var *stmt) = 0;
+    virtual R visitFunctionStmt(const Function *stmt) = 0;
     virtual R visitIfStmt(const If *stmt) = 0;
     virtual R visitWhileStmt(const While *stmt) = 0;
   };
@@ -100,6 +104,25 @@ namespace CppLox
 
   using PrintPtr = std::unique_ptr<Print>;
 
+  struct Return : public Stmt
+  {
+
+    Return(Token keyword, ExprPtr value) : keyword(std::move(keyword)), value(std::move(value)) {}
+
+    std::any accept(BaseStmtVisitor &visitor) const override
+    {
+      auto visitor_ptr = dynamic_cast<StmtVisitor<std::any> *>(&visitor);
+      if (visitor_ptr)
+        return std::any(visitor_ptr->visitReturnStmt(this));
+      return std::any();
+    }
+
+    Token keyword;
+    ExprPtr value;
+  };
+
+  using ReturnPtr = std::unique_ptr<Return>;
+
   struct Var : public Stmt
   {
 
@@ -118,6 +141,26 @@ namespace CppLox
   };
 
   using VarPtr = std::unique_ptr<Var>;
+
+  struct Function : public Stmt
+  {
+
+    Function(Token name, vector<Token> params, vector<StmtPtr> body) : name(std::move(name)), params(std::move(params)), body(std::move(body)) {}
+
+    std::any accept(BaseStmtVisitor &visitor) const override
+    {
+      auto visitor_ptr = dynamic_cast<StmtVisitor<std::any> *>(&visitor);
+      if (visitor_ptr)
+        return std::any(visitor_ptr->visitFunctionStmt(this));
+      return std::any();
+    }
+
+    Token name;
+    vector<Token> params;
+    vector<StmtPtr> body;
+  };
+
+  using FunctionPtr = std::unique_ptr<Function>;
 
   struct If : public Stmt
   {

@@ -29,6 +29,8 @@ namespace CppLox
     ExprPtr primary();
     ExprPtr orExpr();
     ExprPtr andExpr();
+    ExprPtr call();
+    ExprPtr finishCall(ExprPtr callee);
 
     Token advance();
     bool check(TokenType type) const;
@@ -37,7 +39,7 @@ namespace CppLox
     const Token peek() const;
     const Token previous() const;
     Token consume(TokenType type, std::string errorMessage);
-    ParserError error(Token token, std::string errorMessage);
+    ParserError error(const Token &token, std::string errorMessage);
     void synchronize();
     StmtPtr statement();
     StmtPtr printStatement();
@@ -48,5 +50,6 @@ namespace CppLox
     StmtPtr whileStatement();
     StmtPtr forStatement();
     std::vector<StmtPtr> block();
+    StmtPtr function(std::string kind);
   };
 }

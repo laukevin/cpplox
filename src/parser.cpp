@@ -120,7 +120,7 @@ namespace CppLox
     throw error(peek(), errorMessage);
   }
 
-  ParserError Parser::error(Token token, std::string errorMessage)
+  ParserError Parser::error(const Token &token, std::string errorMessage)
   {
     lox::error(token, errorMessage);
     return ParserError();
@@ -134,7 +134,44 @@ namespace CppLox
       ExprPtr right = unary();
       return std::make_unique<Unary>(std::move(op), std::move(right));
     }
-    return primary();
+    return call();
+  }
+
+  ExprPtr Parser::finishCall(ExprPtr callee)
+  {
+    std::vector<ExprPtr> arguments;
+    if (!check(TokenType::RIGHT_PAREN))
+    {
+      do
+      {
+        if (arguments.size() >= 255)
+        {
+          error(peek(), "Cannot have more than 255 arguments.");
+        }
+        arguments.push_back(expression());
+      } while (match({TokenType::COMMA}));
+    }
+
+    Token paren = consume(TokenType::RIGHT_PAREN, "Expect ')' after arguments.");
+    return std::make_unique<Call>(std::move(callee), paren, std::move(arguments));
+  }
+
+  ExprPtr Parser::call()
+  {
+    ExprPtr expr = primary();
+    while (true)
+    {
+
+      if (match({TokenType::LEFT_PAREN}))
+      {
+        expr = finishCall(std::move(expr));
+      }
+      else
+      {
+        break;
+      }
+    }
+    return expr;
   }
 
   ExprPtr Parser::term()
@@ -295,6 +332,10 @@ namespace CppLox
   {
     try
     {
+      if (match({TokenType::FUN}))
+      {
+        return function("function");
+      }
       if (match({TokenType::VAR}))
       {
         return varDeclaration();
@@ -306,6 +347,28 @@ namespace CppLox
       synchronize();
       return nullptr;
     }
+  }
+
+  StmtPtr Parser::function(std::string kind)
+  {
+    Token name = consume(TokenType::IDENTIFIER, "Expect " + kind + " name.");
+    consume(TokenType::LEFT_PAREN, "Expect '(' after " + kind + " name.");
+    std::vector<Token> parameters;
+    if (!check(TokenType::RIGHT_PAREN))
+    {
+      do
+      {
+        if (parameters.size() >= 255)
+        {
+          error(peek(), "Cannot have more than 255 parameters.");
+        }
+        parameters.push_back(consume(TokenType::IDENTIFIER, "Expect parameter name."));
+      } while (match({TokenType::COMMA}));
+    }
+    consume(TokenType::RIGHT_PAREN, "Expect ')' after parameters.");
+    consume(TokenType::LEFT_BRACE, "Expect '{' before " + kind + " body.");
+    std::vector<StmtPtr> body = block();
+    return std::make_unique<Function>(name, std::move(parameters), std::move(body));
   }
 
   StmtPtr Parser::varDeclaration()

@@ -8,15 +8,20 @@
 #include "expr.h"
 #include "stmt.h"
 #include "environment.h"
+#include "loxcallable.h"
 
 namespace CppLox
 {
   class InterpreterBlockManager;
+  class LoxFunction;
 
-  class Interpreter : public ExprVisitor<std::any>, public StmtVisitor<std::any>
+  class Interpreter : public ExprVisitor<std::any>, public StmtVisitor<std::any>, public std::enable_shared_from_this<Interpreter>
   {
   public:
-    Interpreter() : environment(std::make_shared<Environment>()) {}
+    Interpreter() : globals(std::make_shared<Environment>()), environment(globals)
+    {
+      globals->define("clock", std::make_shared<ClockCallable>());
+    }
     std::any visitBinaryExpr(const Binary *expr) override;
     std::any visitGroupingExpr(const Grouping *expr) override;
     std::any visitLiteralExpr(const Literal *expr) override;
@@ -30,9 +35,12 @@ namespace CppLox
     std::any visitBlockStmt(const Block *stmt) override;
     std::any visitIfStmt(const If *stmt) override;
     std::any visitWhileStmt(const While *stmt) override;
+    std::any visitCallExpr(const Call *expr) override;
+    std::any visitFunctionStmt(const Function *stmt) override;
     void interpret(std::vector<StmtPtr> &stmts);
 
   protected:
+    std::shared_ptr<Environment> globals;
     std::shared_ptr<Environment> environment;
 
   private:
@@ -46,6 +54,7 @@ namespace CppLox
     void executeBlock(const std::vector<StmtPtr> &stmts, std::shared_ptr<Environment> environment);
 
     friend class InterpreterBlockManager;
+    friend class LoxFunction;
   };
 
   class InterpreterBlockManager

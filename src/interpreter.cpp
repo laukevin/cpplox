@@ -10,6 +10,8 @@
 #include <memory>
 
 #include "cpplox/interpreter.h"
+#include "cpplox/loxcallable.h"
+#include "cpplox/loxfunction.h"
 #include "cpplox/runtime_error.h"
 #include "cpplox/environment.h"
 #include "cpplox/lox.h"
@@ -288,4 +290,39 @@ namespace CppLox
     }
     return std::any();
   }
+
+  std::any Interpreter::visitCallExpr(const Call *expr)
+  {
+    std::any callee = evaluate(*expr->callee);
+    std::vector<std::any> arguments;
+    for (const auto &argument : expr->arguments)
+    {
+      arguments.push_back(evaluate(*argument));
+    }
+
+    if (callee.type() != typeid(LoxCallable))
+    {
+      throw RuntimeError(expr->paren, "Can only call functions and classes.");
+    }
+
+    std::shared_ptr<LoxCallable> function = std::any_cast<std::shared_ptr<LoxCallable>>(callee);
+
+    if (arguments.size() != function->arity())
+    {
+      throw RuntimeError(
+          expr->paren,
+          "Expected " + std::to_string(function->arity()) +
+              " arguments but got " + std::to_string(arguments.size()) + ".");
+    }
+
+    return function->call(shared_from_this(), std::move(arguments));
+  }
+
+  std::any Interpreter::visitFunctionStmt(const Function *stmt)
+  {
+    std::shared_ptr<LoxFunction> function = std::make_shared<LoxFunction>(stmt);
+    environment->define(stmt->name.lexeme, std::move(function));
+    return std::any();
+  }
+
 };
