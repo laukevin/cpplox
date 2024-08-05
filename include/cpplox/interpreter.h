@@ -21,12 +21,15 @@ namespace CppLox
     std::any visitGroupingExpr(const Grouping *expr) override;
     std::any visitLiteralExpr(const Literal *expr) override;
     std::any visitUnaryExpr(const Unary *expr) override;
+    std::any visitLogicalExpr(const Logical *expr) override;
     std::any visitExpressionStmt(const Expression *stmt) override;
     std::any visitPrintStmt(const Print *stmt) override;
     std::any visitVariableExpr(const Variable *expr) override;
     std::any visitVarStmt(const Var *stmt) override;
     std::any visitAssignExpr(const Assign *expr) override;
     std::any visitBlockStmt(const Block *stmt) override;
+    std::any visitIfStmt(const If *stmt) override;
+    std::any visitWhileStmt(const While *stmt) override;
     void interpret(std::vector<StmtPtr> &stmts);
 
   protected:

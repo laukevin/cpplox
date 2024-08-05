@@ -54,7 +54,26 @@ namespace CppLox
 
   ExprPtr Parser::expression()
   {
-    return equality();
+    return assignment();
+  }
+
+  ExprPtr Parser::assignment()
+  {
+    ExprPtr expr = orExpr();
+    if (match({TokenType::EQUAL}))
+    {
+      Token equals = previous();
+      ExprPtr value = expression();
+
+      Variable *varExpr = dynamic_cast<Variable *>(expr.get());
+      if (varExpr)
+      {
+        Token name = varExpr->name;
+        return std::make_unique<Assign>(name, std::move(value));
+      }
+      lox::error(equals, "Invalid assignment target.");
+    }
+    return expr;
   }
 
   ExprPtr Parser::primary()
@@ -159,6 +178,32 @@ namespace CppLox
     return expr;
   }
 
+  ExprPtr Parser::orExpr()
+  {
+    ExprPtr expr = andExpr();
+    while (match({TokenType::OR}))
+    {
+      Token op = previous();
+      ExprPtr right = andExpr();
+      expr = std::make_unique<Logical>(std::move(expr), std::move(op), std::move(right));
+    }
+
+    return expr;
+  }
+
+  ExprPtr Parser::andExpr()
+  {
+    ExprPtr expr = equality();
+    while (match({TokenType::AND}))
+    {
+      Token op = previous();
+      ExprPtr right = equality();
+      expr = std::make_unique<Logical>(std::move(expr), std::move(op), std::move(right));
+    }
+
+    return expr;
+  }
+
   ExprPtr Parser::equality()
   {
     ExprPtr expr = comparison();
@@ -212,6 +257,18 @@ namespace CppLox
     if (match({TokenType::PRINT}))
     {
       return printStatement();
+    }
+    if (match({TokenType::IF}))
+    {
+      return ifStatement();
+    }
+    if (match({TokenType::WHILE}))
+    {
+      return whileStatement();
+    }
+    if (match({TokenType::FOR}))
+    {
+      return forStatement();
     }
     if (match({TokenType::LEFT_BRACE}))
     {
@@ -272,6 +329,90 @@ namespace CppLox
     }
     consume(TokenType::RIGHT_BRACE, "Expect '}' after block.");
     return statements;
+  }
+
+  StmtPtr Parser::ifStatement()
+  {
+    consume(TokenType::LEFT_PAREN, "Expect '(' after 'if'.");
+    ExprPtr condition = expression();
+    consume(TokenType::RIGHT_PAREN, "Expect ')' after if condition.");
+
+    StmtPtr thenBranch = statement();
+    StmtPtr elseBranch = nullptr;
+
+    if (match({TokenType::ELSE}))
+    {
+      elseBranch = statement();
+    }
+    return std::make_unique<If>(std::move(condition), std::move(thenBranch), std::move(elseBranch));
+  }
+
+  StmtPtr Parser::whileStatement()
+  {
+    consume(TokenType::LEFT_PAREN, "Expect '(' after 'if' .");
+    ExprPtr condition = expression();
+    consume(TokenType::RIGHT_PAREN, "Expect ')' after if condition.");
+
+    StmtPtr body = statement();
+    return std::make_unique<While>(std::move(condition), std::move(body));
+  }
+
+  StmtPtr Parser::forStatement()
+  {
+    consume(TokenType::LEFT_PAREN, "Expect '(' after 'for' .");
+    StmtPtr initializer;
+    if (match({TokenType::SEMICOLON}))
+    {
+      initializer = nullptr;
+    }
+    else if (match({TokenType::VAR}))
+    {
+      initializer = varDeclaration();
+    }
+    else
+    {
+      initializer = expressionStatement();
+    }
+
+    ExprPtr condition;
+    if (!check(TokenType::SEMICOLON))
+    {
+      condition = expression();
+    }
+    consume(TokenType::SEMICOLON, "Expect ';' after loop condition.");
+
+    ExprPtr increment;
+    if (!check(TokenType::RIGHT_PAREN))
+    {
+      increment = expression();
+    }
+    consume(TokenType::RIGHT_PAREN, "Expect ')' after for clauses.");
+    StmtPtr body = statement();
+
+    std::vector<StmtPtr> stmts;
+
+    if (initializer != nullptr)
+    {
+      stmts.push_back(std::move(initializer));
+    }
+
+    if (increment != nullptr)
+    {
+      Block *block = dynamic_cast<Block *>(body.get());
+      block->statements.push_back(std::make_unique<Expression>(std::move(increment)));
+    }
+
+    if (condition == nullptr)
+    {
+      ExprPtr trueExpr = std::make_unique<Literal>(true);
+      stmts.push_back(std::make_unique<While>(std::move(trueExpr), std::move(body)));
+    }
+    else
+    {
+      stmts.push_back(std::make_unique<While>(std::move(condition), std::move(body)));
+    }
+
+    return std::make_unique<Block>(std::move(stmts));
   }
 
 }

@@ -249,4 +249,43 @@ namespace CppLox
       lox::runtimeError(error);
     }
   }
+
+  std::any Interpreter::visitIfStmt(const If *stmt)
+  {
+    if (isTruthy(evaluate(*stmt->condition)))
+    {
+      execute(*stmt->thenBranch);
+    }
+    else if (stmt->elseBranch != nullptr)
+    {
+      execute(*stmt->elseBranch);
+    }
+    return std::any();
+  }
+
+  std::any Interpreter::visitLogicalExpr(const Logical *expr)
+  {
+    std::any left = evaluate(*expr->left);
+    if (expr->op.type == TokenType::OR)
+    {
+      if (isTruthy(left))
+        return left;
+    }
+    else
+    {
+      if (!isTruthy(left))
+        return left;
+    }
+
+    return evaluate(*expr->right);
+  }
+
+  std::any Interpreter::visitWhileStmt(const While *stmt)
+  {
+    while (isTruthy(evaluate(*stmt->condition)))
+    {
+      execute(*stmt->body);
+    }
+    return std::any();
+  }
 };

@@ -20,12 +20,16 @@ namespace CppLox
     std::vector<Token> tokens;
     int current = 0;
     ExprPtr expression();
+    ExprPtr assignment();
     ExprPtr equality();
     ExprPtr comparison();
     ExprPtr term();
     ExprPtr factor();
     ExprPtr unary();
     ExprPtr primary();
+    ExprPtr orExpr();
+    ExprPtr andExpr();
+
     Token advance();
     bool check(TokenType type) const;
     bool match(std::vector<TokenType> tokens);
@@ -40,6 +44,9 @@ namespace CppLox
     StmtPtr expressionStatement();
     StmtPtr declaration();
     StmtPtr varDeclaration();
+    StmtPtr ifStatement();
+    StmtPtr whileStatement();
+    StmtPtr forStatement();
     std::vector<StmtPtr> block();
   };
 }

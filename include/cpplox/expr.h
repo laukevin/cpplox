@@ -16,6 +16,7 @@ class Literal;
 class Unary;
 class Variable;
 class Assign;
+class Logical;
 
 
 
@@ -35,6 +36,7 @@ public:
     virtual R visitUnaryExpr(const Unary *expr) = 0;
     virtual R visitVariableExpr(const Variable *expr) = 0;
     virtual R visitAssignExpr(const Assign *expr) = 0;
+    virtual R visitLogicalExpr(const Logical *expr) = 0;
 };
 
 class Expr
@@ -170,5 +172,27 @@ std::any accept(BaseExprVisitor &visitor) const override
 };
 
 using AssignPtr = std::unique_ptr<Assign>;
+
+
+struct Logical : public Expr
+{
+
+Logical(ExprPtr left,  Token op,  ExprPtr right) : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
+
+std::any accept(BaseExprVisitor &visitor) const override
+{
+  auto visitor_ptr = dynamic_cast<ExprVisitor<std::any>*>(&visitor);
+  if (visitor_ptr)
+    return std::any(visitor_ptr->visitLogicalExpr(this));
+  return std::any();
+}
+
+    ExprPtr left;
+     Token op;
+     ExprPtr right;
+
+};
+
+using LogicalPtr = std::unique_ptr<Logical>;
 
 }

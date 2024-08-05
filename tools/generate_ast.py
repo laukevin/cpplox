@@ -149,6 +149,7 @@ def generate_files(output_dir):
                 "Unary    : Token op, ExprPtr right",
                 "Variable : Token name",
                 "Assign   : Token name, ExprPtr value",
+                "Logical  : ExprPtr left, Token op, ExprPtr right",
             ],
         },
         {
@@ -158,6 +159,8 @@ def generate_files(output_dir):
                 "Expression : ExprPtr expression",
                 "Print      : ExprPtr expression",
                 "Var        : Token name, ExprPtr initializer",
+                "If         : ExprPtr condition, StmtPtr thenBranch, StmtPtr elseBranch",
+                "While      : ExprPtr condition, StmtPtr body",
             ],
         },
     ]
