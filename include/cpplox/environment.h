@@ -8,11 +8,26 @@
 
 namespace CppLox
 {
-  class Environment
+  class Environment : public std::enable_shared_from_this<Environment>
   {
   public:
     Environment() : enclosing(nullptr) {}
     Environment(std::shared_ptr<Environment> enclosing) : enclosing(enclosing) {}
+
+    std::shared_ptr<Environment> ancestor(int distance)
+    {
+      std::shared_ptr<Environment> environment = shared_from_this();
+      for (int i = 0; i < distance; i++)
+      {
+        environment = environment->enclosing;
+      }
+      return environment;
+    }
+
+    std::any getAt(int distance, const std::string &lexeme)
+    {
+      return ancestor(distance)->values[lexeme];
+    }
 
     std::any get(const Token &name)
     {
@@ -25,11 +40,16 @@ namespace CppLox
       {
         return enclosing->get(name);
       }
-      throw RuntimeError(name, "Undefined variable '" + name.lexeme + "'.");
+      throw RuntimeError(name, "get - Undefined variable '" + name.lexeme + "'.");
     }
     void define(std::string name, std::any value)
     {
       values[name] = value;
+    }
+
+    void assignAt(int distance, const Token &name, std::any value)
+    {
+      ancestor(distance)->values[name.lexeme] = value;
     }
 
     void assign(const Token &name, std::any value)
@@ -46,7 +66,7 @@ namespace CppLox
         return;
       }
 
-      throw RuntimeError(name, "Undefined variable '" + name.lexeme + "'.");
+      throw RuntimeError(name, "assign - Undefined variable '" + name.lexeme + "'.");
     }
 
   private:

@@ -19,29 +19,6 @@
 
 namespace CppLox
 {
-  // Function to demangle type names
-  std::string demangle(const char *name)
-  {
-    int status = -1;
-    std::unique_ptr<char[], void (*)(void *)> res{
-        abi::__cxa_demangle(name, nullptr, nullptr, &status),
-        std::free};
-    return (status == 0) ? res.get() : name;
-  }
-
-  // Function to print type of std::any
-  void printType(const std::any &a)
-  {
-    const std::type_info &typeInfo = a.type();
-    std::cout << "Type: " << demangle(typeInfo.name()) << std::endl;
-  }
-
-  template <typename T>
-  void printUniquePtrType(const std::unique_ptr<T> &ptr)
-  {
-    std::cout << "Type: " << demangle(typeid(*ptr).name()) << std::endl;
-  }
-
   std::any Interpreter::visitBinaryExpr(const Binary *expr)
   {
     std::any left = evaluate(*expr->left);
@@ -220,13 +197,22 @@ namespace CppLox
 
   std::any Interpreter::visitVariableExpr(const Variable *expr)
   {
-    return environment->get(expr->name);
+    return lookupVariable(expr->name, expr);
   }
 
   std::any Interpreter::visitAssignExpr(const Assign *expr)
   {
     std::any value = evaluate(*expr->value.get());
-    environment->assign(expr->name, value);
+
+    int distance = locals.find(expr) != locals.end() ? locals[expr] : -1;
+    if (distance > -1)
+    {
+      environment->assignAt(distance, expr->name, value);
+    }
+    else
+    {
+      globals->assign(expr->name, value);
+    }
     return value;
   }
 
@@ -343,5 +329,20 @@ namespace CppLox
       value = evaluate(*stmt->value);
     }
     throw LoxReturn(value);
+  }
+
+  void Interpreter::resolve(const Expr *expr, int depth)
+  {
+    locals[expr] = depth;
+  }
+
+  std::any Interpreter::lookupVariable(const Token &name, const Expr *expr)
+  {
+    int distance = locals.find(expr) != locals.end() ? locals[expr] : -1;
+    if (distance > -1)
+    {
+      return environment->getAt(distance, name.lexeme);
+    }
+    return globals->get(name);
   }
 };

@@ -4,11 +4,15 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <typeinfo>
+#include <cxxabi.h>
+#include <memory>
 
 #include "cpplox/lox.h"
 #include "cpplox/expr.h"
 #include "cpplox/stmt.h"
 #include "cpplox/astprinter.h"
+#include "cpplox/resolver.h"
 #include "cpplox/scanner.h"
 #include "cpplox/parser.h"
 #include "cpplox/token.h"
@@ -54,6 +58,23 @@ namespace CppLox
     hadRuntimeError = true;
   }
 
+  // Function to demangle type names
+  std::string lox::demangle(const char *name)
+  {
+    int status = -1;
+    std::unique_ptr<char[], void (*)(void *)> res{
+        abi::__cxa_demangle(name, nullptr, nullptr, &status),
+        std::free};
+    return (status == 0) ? res.get() : name;
+  }
+
+  // Function to print type of std::any
+  void lox::printType(const std::any &a)
+  {
+    const std::type_info &typeInfo = a.type();
+    std::cout << "Type: " << demangle(typeInfo.name()) << std::endl;
+  }
+
   void run(const std::string &source)
   {
     Scanner scanner = Scanner(source);
@@ -66,6 +87,13 @@ namespace CppLox
       return;
     if (hadRuntimeError)
       return;
+
+    Resolver resolver = Resolver(interpreter);
+    resolver.resolve(stmts);
+
+    if (hadError)
+      return;
+
     interpreter->interpret(stmts);
   }
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <functional>
 #include <sstream>
+#include <iostream>
 
 #include "expr.h"
 #include "stmt.h"
@@ -39,10 +40,12 @@ namespace CppLox
     std::any visitFunctionStmt(const Function *stmt) override;
     std::any visitReturnStmt(const Return *stmt) override;
     void interpret(std::vector<StmtPtr> &stmts);
+    void resolve(const Expr *expr, int depth);
 
   protected:
     std::shared_ptr<Environment> globals;
     std::shared_ptr<Environment> environment;
+    std::unordered_map<const Expr *, int> locals;
 
   private:
     std::any evaluate(Expr &expr);
@@ -53,6 +56,7 @@ namespace CppLox
     std::string stringify(std::any &obj);
     void execute(const Stmt &stmt);
     void executeBlock(const std::vector<StmtPtr> &stmts, std::shared_ptr<Environment> environment);
+    std::any lookupVariable(const Token &name, const Expr *expr);
 
     friend class InterpreterBlockManager;
     friend class LoxFunction;
