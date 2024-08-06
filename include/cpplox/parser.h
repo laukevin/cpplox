@@ -43,6 +43,7 @@ namespace CppLox
     void synchronize();
     StmtPtr statement();
     StmtPtr printStatement();
+    StmtPtr returnStatement();
     StmtPtr expressionStatement();
     StmtPtr declaration();
     StmtPtr varDeclaration();

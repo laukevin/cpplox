@@ -295,6 +295,10 @@ namespace CppLox
     {
       return printStatement();
     }
+    if (match({TokenType::RETURN}))
+    {
+      return returnStatement();
+    }
     if (match({TokenType::IF}))
     {
       return ifStatement();
@@ -476,6 +480,18 @@ namespace CppLox
     }
 
     return std::make_unique<Block>(std::move(stmts));
+  }
+
+  StmtPtr Parser::returnStatement()
+  {
+    Token keyword = previous();
+    ExprPtr value = nullptr;
+    if (!check(TokenType::SEMICOLON))
+    {
+      value = expression();
+    }
+    consume(TokenType::SEMICOLON, "Expect ';' after return value.");
+    return std::make_unique<Return>(keyword, std::move(value));
   }
 
 }

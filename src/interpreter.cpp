@@ -12,6 +12,7 @@
 #include "cpplox/interpreter.h"
 #include "cpplox/loxcallable.h"
 #include "cpplox/loxfunction.h"
+#include "cpplox/loxreturn.h"
 #include "cpplox/runtime_error.h"
 #include "cpplox/environment.h"
 #include "cpplox/lox.h"
@@ -329,13 +330,18 @@ namespace CppLox
 
   std::any Interpreter::visitFunctionStmt(const Function *stmt)
   {
-    std::shared_ptr<LoxFunction> function = std::make_shared<LoxFunction>(stmt);
+    std::shared_ptr<LoxFunction> function = std::make_shared<LoxFunction>(stmt, environment);
     environment->define(stmt->name.lexeme, std::move(function));
     return std::any();
   }
 
   std::any Interpreter::visitReturnStmt(const Return *stmt)
   {
-    return std::any();
+    std::any value;
+    if (stmt->value != nullptr)
+    {
+      value = evaluate(*stmt->value);
+    }
+    throw LoxReturn(value);
   }
 };
