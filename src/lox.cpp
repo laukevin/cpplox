@@ -21,7 +21,7 @@ static int hadRuntimeError = false;
 
 namespace CppLox
 {
-  static Interpreter interpreter;
+  static std::shared_ptr<Interpreter> interpreter = std::make_shared<Interpreter>();
 
   void lox::error(int line, const std::string &message)
   {
@@ -66,7 +66,7 @@ namespace CppLox
       return;
     if (hadRuntimeError)
       return;
-    interpreter.interpret(stmts);
+    interpreter->interpret(stmts);
   }
 
   bool readFile(const std::string &file_loc, std::string &content)

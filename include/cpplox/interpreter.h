@@ -37,6 +37,7 @@ namespace CppLox
     std::any visitWhileStmt(const While *stmt) override;
     std::any visitCallExpr(const Call *expr) override;
     std::any visitFunctionStmt(const Function *stmt) override;
+    std::any visitReturnStmt(const Return *stmt) override;
     void interpret(std::vector<StmtPtr> &stmts);
 
   protected:

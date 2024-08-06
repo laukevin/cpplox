@@ -300,12 +300,21 @@ namespace CppLox
       arguments.push_back(evaluate(*argument));
     }
 
-    if (callee.type() != typeid(LoxCallable))
+    std::shared_ptr<LoxCallable> function;
+    try
+    {
+      // Extract the shared_ptr from std::any
+      function = std::any_cast<std::shared_ptr<LoxFunction>>(callee);
+    }
+    catch (const std::bad_any_cast &e)
+    {
+      function = std::any_cast<std::shared_ptr<ClockCallable>>(callee);
+    }
+
+    if (!function)
     {
       throw RuntimeError(expr->paren, "Can only call functions and classes.");
     }
-
-    std::shared_ptr<LoxCallable> function = std::any_cast<std::shared_ptr<LoxCallable>>(callee);
 
     if (arguments.size() != function->arity())
     {
@@ -325,4 +334,8 @@ namespace CppLox
     return std::any();
   }
 
+  std::any Interpreter::visitReturnStmt(const Return *stmt)
+  {
+    return std::any();
+  }
 };
