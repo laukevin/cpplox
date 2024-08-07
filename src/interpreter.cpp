@@ -330,7 +330,7 @@ namespace CppLox
 
   std::any Interpreter::visitFunctionStmt(const Function *stmt)
   {
-    std::shared_ptr<LoxFunction> function = std::make_shared<LoxFunction>(stmt, environment);
+    std::shared_ptr<LoxFunction> function = std::make_shared<LoxFunction>(stmt, environment, false);
     environment->define(stmt->name.lexeme, std::move(function));
     return std::any();
   }
@@ -363,8 +363,48 @@ namespace CppLox
   std::any Interpreter::visitClassStmt(const Class *stmt)
   {
     environment->define(stmt->name.lexeme, std::any());
-    std::shared_ptr<LoxClass> klass = std::make_shared<LoxClass>(stmt->name.lexeme);
+
+    std::unordered_map<std::string, std::shared_ptr<LoxFunction>> methods;
+    for (const auto &method : stmt->methods)
+    {
+      const Function *methodFn = dynamic_cast<Function *>(method.get());
+      bool isInitializer = methodFn->name.lexeme == "init";
+      std::shared_ptr<LoxFunction> function = std::make_shared<LoxFunction>(methodFn, environment, isInitializer);
+      methods[methodFn->name.lexeme] = function;
+    }
+
+    std::shared_ptr<LoxClass> klass = std::make_shared<LoxClass>(stmt->name.lexeme, std::move(methods));
     environment->assign(stmt->name, klass);
+
     return std::any();
   }
+
+  std::any Interpreter::visitGetExpr(const Get *expr)
+  {
+    std::any object = evaluate(*expr->object);
+    if (object.type() == typeid(std::shared_ptr<LoxInstance>))
+    {
+      return std::any_cast<std::shared_ptr<LoxInstance>>(object)->get(expr->name);
+    }
+    throw RuntimeError(expr->name, "Only instances have properties.");
+  }
+
+  std::any Interpreter::visitSetExpr(const Set *expr)
+  {
+    std::any object = evaluate(*expr->object);
+    if (object.type() != typeid(std::shared_ptr<LoxInstance>))
+    {
+      throw RuntimeError(expr->name, "Only instances have fields.");
+    }
+    std::any value = evaluate(*expr->value);
+    std::shared_ptr<LoxInstance> instance = std::any_cast<std::shared_ptr<LoxInstance>>(object);
+    instance->set(expr->name, value);
+    return value;
+  }
+
+  std::any Interpreter::visitThisExpr(const This *expr)
+  {
+    return lookupVariable(expr->keyword, expr);
+  }
+
 };

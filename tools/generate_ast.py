@@ -145,8 +145,11 @@ def generate_files(output_dir):
             "visitor_classes": [
                 "Binary   : ExprPtr left, Token op, ExprPtr right",
                 "Call     : ExprPtr callee, Token paren, vector<ExprPtr> arguments",
+                "Get      : ExprPtr object, Token name",
+                "Set      : ExprPtr object, Token name, ExprPtr value",
                 "Grouping : ExprPtr expression",
                 "Literal  : LiteralType value",
+                "This     : Token keyword",
                 "Unary    : Token op, ExprPtr right",
                 "Variable : Token name",
                 "Assign   : Token name, ExprPtr value",

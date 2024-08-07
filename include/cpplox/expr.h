@@ -12,8 +12,11 @@ namespace CppLox {
 
 class Binary;
 class Call;
+class Get;
+class Set;
 class Grouping;
 class Literal;
+class This;
 class Unary;
 class Variable;
 class Assign;
@@ -33,8 +36,11 @@ class ExprVisitor : public BaseExprVisitor
 public:
         virtual R visitBinaryExpr(const Binary *expr) = 0;
     virtual R visitCallExpr(const Call *expr) = 0;
+    virtual R visitGetExpr(const Get *expr) = 0;
+    virtual R visitSetExpr(const Set *expr) = 0;
     virtual R visitGroupingExpr(const Grouping *expr) = 0;
     virtual R visitLiteralExpr(const Literal *expr) = 0;
+    virtual R visitThisExpr(const This *expr) = 0;
     virtual R visitUnaryExpr(const Unary *expr) = 0;
     virtual R visitVariableExpr(const Variable *expr) = 0;
     virtual R visitAssignExpr(const Assign *expr) = 0;
@@ -96,6 +102,49 @@ std::any accept(BaseExprVisitor &visitor) const override
 using CallPtr = std::unique_ptr<Call>;
 
 
+struct Get : public Expr
+{
+
+Get(ExprPtr object,  Token name) : object(std::move(object)), name(std::move(name)) {}
+
+std::any accept(BaseExprVisitor &visitor) const override
+{
+  auto visitor_ptr = dynamic_cast<ExprVisitor<std::any>*>(&visitor);
+  if (visitor_ptr)
+    return std::any(visitor_ptr->visitGetExpr(this));
+  return std::any();
+}
+
+    ExprPtr object;
+     Token name;
+
+};
+
+using GetPtr = std::unique_ptr<Get>;
+
+
+struct Set : public Expr
+{
+
+Set(ExprPtr object,  Token name,  ExprPtr value) : object(std::move(object)), name(std::move(name)), value(std::move(value)) {}
+
+std::any accept(BaseExprVisitor &visitor) const override
+{
+  auto visitor_ptr = dynamic_cast<ExprVisitor<std::any>*>(&visitor);
+  if (visitor_ptr)
+    return std::any(visitor_ptr->visitSetExpr(this));
+  return std::any();
+}
+
+    ExprPtr object;
+     Token name;
+     ExprPtr value;
+
+};
+
+using SetPtr = std::unique_ptr<Set>;
+
+
 struct Grouping : public Expr
 {
 
@@ -134,6 +183,26 @@ std::any accept(BaseExprVisitor &visitor) const override
 };
 
 using LiteralPtr = std::unique_ptr<Literal>;
+
+
+struct This : public Expr
+{
+
+This(Token keyword) : keyword(std::move(keyword)) {}
+
+std::any accept(BaseExprVisitor &visitor) const override
+{
+  auto visitor_ptr = dynamic_cast<ExprVisitor<std::any>*>(&visitor);
+  if (visitor_ptr)
+    return std::any(visitor_ptr->visitThisExpr(this));
+  return std::any();
+}
+
+    Token keyword;
+
+};
+
+using ThisPtr = std::unique_ptr<This>;
 
 
 struct Unary : public Expr

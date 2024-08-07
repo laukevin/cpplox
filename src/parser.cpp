@@ -71,6 +71,11 @@ namespace CppLox
         Token name = varExpr->name;
         return std::make_unique<Assign>(name, std::move(value));
       }
+      Get *getExpr = dynamic_cast<Get *>(expr.get());
+      if (getExpr)
+      {
+        return std::make_unique<Set>(std::move(getExpr->object), getExpr->name, std::move(value));
+      }
       lox::error(equals, "Invalid assignment target.");
     }
     return expr;
@@ -86,6 +91,11 @@ namespace CppLox
     if (match({TokenType::TRUE}))
     {
       return std::make_unique<Literal>(true);
+    }
+
+    if (match({TokenType::THIS}))
+    {
+      return std::make_unique<This>(previous());
     }
 
     if (match({TokenType::IDENTIFIER}))
@@ -161,10 +171,14 @@ namespace CppLox
     ExprPtr expr = primary();
     while (true)
     {
-
       if (match({TokenType::LEFT_PAREN}))
       {
         expr = finishCall(std::move(expr));
+      }
+      else if (match({TokenType::DOT}))
+      {
+        Token name = consume(TokenType::IDENTIFIER, "Expect property name after '.'.");
+        expr = std::make_unique<Get>(std::move(expr), name);
       }
       else
       {
