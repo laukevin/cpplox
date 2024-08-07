@@ -56,6 +56,7 @@ namespace CppLox
     std::any visitGetExpr(const Get *expr) override;
     std::any visitSetExpr(const Set *expr) override;
     std::any visitThisExpr(const This *expr) override;
+    std::any visitSuperExpr(const Super *expr) override;
     void resolve(const std::vector<StmtPtr> &stmts);
 
   private:

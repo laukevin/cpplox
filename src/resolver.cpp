@@ -271,11 +271,11 @@ namespace CppLox
       {
         lox::error(superclass->name, "A class cannot inherit from itself.");
       }
-    }
-
-    if (stmt->superclass != nullptr)
-    {
+      currentClass = ClassType::SUBCLASS;
       resolve(stmt->superclass);
+
+      beginScope();
+      topScope()["super"] = true;
     }
 
     beginScope();
@@ -292,6 +292,10 @@ namespace CppLox
       resolveFunction(methodFn, declaration);
     }
     endScope();
+    if (stmt->superclass != nullptr)
+    {
+      endScope();
+    }
     currentClass = enclosingClass;
 
     return std::any();
@@ -316,6 +320,20 @@ namespace CppLox
     {
       lox::error(expr->keyword, "Cannot use 'this' outside of a class.");
       return std::any();
+    }
+    resolveLocal(expr, expr->keyword);
+    return std::any();
+  }
+
+  std::any Resolver::visitSuperExpr(const Super *expr)
+  {
+    if (currentClass == ClassType::NONE)
+    {
+      lox::error(expr->keyword, "Cannot use 'super' outside of a class.");
+    }
+    else if (currentClass != ClassType::SUBCLASS)
+    {
+      lox::error(expr->keyword, "Cannot use 'super' in a class with no superclass.");
     }
     resolveLocal(expr, expr->keyword);
     return std::any();

@@ -13,6 +13,7 @@ namespace CppLox
   public:
     Environment() : enclosing(nullptr) {}
     Environment(std::shared_ptr<Environment> enclosing) : enclosing(enclosing) {}
+    std::shared_ptr<Environment> enclosing;
 
     std::shared_ptr<Environment> ancestor(int distance)
     {
@@ -70,7 +71,6 @@ namespace CppLox
     }
 
   private:
-    std::shared_ptr<Environment> enclosing;
     std::unordered_map<std::string, std::any> values;
   };
 }

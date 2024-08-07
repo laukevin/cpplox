@@ -378,6 +378,12 @@ namespace CppLox
 
     environment->define(stmt->name.lexeme, std::any());
 
+    if (stmt->superclass != nullptr)
+    {
+      environment = std::make_shared<Environment>(environment);
+      environment->define("super", superclassPtr);
+    }
+
     std::unordered_map<std::string, std::shared_ptr<LoxFunction>> methods;
     for (const auto &method : stmt->methods)
     {
@@ -388,6 +394,11 @@ namespace CppLox
     }
 
     std::shared_ptr<LoxClass> klass = std::make_shared<LoxClass>(stmt->name.lexeme, superclassPtr, std::move(methods));
+    if (superclassPtr != nullptr)
+    {
+      environment = environment->enclosing;
+    }
+
     environment->assign(stmt->name, klass);
 
     return std::any();
@@ -419,6 +430,20 @@ namespace CppLox
   std::any Interpreter::visitThisExpr(const This *expr)
   {
     return lookupVariable(expr->keyword, expr);
+  }
+
+  std::any Interpreter::visitSuperExpr(const Super *expr)
+  {
+    int distance = locals[expr];
+    std::shared_ptr<LoxClass> superclass = std::any_cast<std::shared_ptr<LoxClass>>(environment->getAt(distance, "super"));
+    std::shared_ptr<LoxInstance> object = std::any_cast<std::shared_ptr<LoxInstance>>(environment->getAt(distance - 1, "this"));
+    auto method = superclass->findMethod(expr->method.lexeme);
+    if (method == nullptr)
+    {
+      throw RuntimeError(expr->method, "Undefined property '" + expr->method.lexeme + "'.");
+    }
+
+    return method->bind(object);
   }
 
 };

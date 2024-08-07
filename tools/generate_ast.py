@@ -147,6 +147,7 @@ def generate_files(output_dir):
                 "Call     : ExprPtr callee, Token paren, vector<ExprPtr> arguments",
                 "Get      : ExprPtr object, Token name",
                 "Set      : ExprPtr object, Token name, ExprPtr value",
+                "Super    : Token keyword, Token method",
                 "Grouping : ExprPtr expression",
                 "Literal  : LiteralType value",
                 "This     : Token keyword",

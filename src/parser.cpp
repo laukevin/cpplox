@@ -93,6 +93,14 @@ namespace CppLox
       return std::make_unique<Literal>(true);
     }
 
+    if (match({TokenType::SUPER}))
+    {
+      Token keyword = previous();
+      consume(TokenType::DOT, "Expect '.' after 'super'.");
+      Token method = consume(TokenType::IDENTIFIER, "Expect superclass method name.");
+      return std::make_unique<Super>(keyword, method);
+    }
+
     if (match({TokenType::THIS}))
     {
       return std::make_unique<This>(previous());

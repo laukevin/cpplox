@@ -14,6 +14,7 @@ class Binary;
 class Call;
 class Get;
 class Set;
+class Super;
 class Grouping;
 class Literal;
 class This;
@@ -38,6 +39,7 @@ public:
     virtual R visitCallExpr(const Call *expr) = 0;
     virtual R visitGetExpr(const Get *expr) = 0;
     virtual R visitSetExpr(const Set *expr) = 0;
+    virtual R visitSuperExpr(const Super *expr) = 0;
     virtual R visitGroupingExpr(const Grouping *expr) = 0;
     virtual R visitLiteralExpr(const Literal *expr) = 0;
     virtual R visitThisExpr(const This *expr) = 0;
@@ -143,6 +145,27 @@ std::any accept(BaseExprVisitor &visitor) const override
 };
 
 using SetPtr = std::unique_ptr<Set>;
+
+
+struct Super : public Expr
+{
+
+Super(Token keyword,  Token method) : keyword(std::move(keyword)), method(std::move(method)) {}
+
+std::any accept(BaseExprVisitor &visitor) const override
+{
+  auto visitor_ptr = dynamic_cast<ExprVisitor<std::any>*>(&visitor);
+  if (visitor_ptr)
+    return std::any(visitor_ptr->visitSuperExpr(this));
+  return std::any();
+}
+
+    Token keyword;
+     Token method;
+
+};
+
+using SuperPtr = std::unique_ptr<Super>;
 
 
 struct Grouping : public Expr
