@@ -10,6 +10,7 @@ namespace CppLox
   class LoxCallable
   {
   public:
+    virtual ~LoxCallable() = default;
     virtual int arity() const = 0;
     virtual std::any call(std::shared_ptr<Interpreter> interpreter, const std::vector<std::any> &arguments) = 0;
   };

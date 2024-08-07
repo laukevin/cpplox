@@ -39,6 +39,7 @@ namespace CppLox
     std::any visitCallExpr(const Call *expr) override;
     std::any visitFunctionStmt(const Function *stmt) override;
     std::any visitReturnStmt(const Return *stmt) override;
+    std::any visitClassStmt(const Class *stmt) override;
     void interpret(std::vector<StmtPtr> &stmts);
     void resolve(const Expr *expr, int depth);
 

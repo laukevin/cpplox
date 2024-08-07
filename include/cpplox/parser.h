@@ -52,5 +52,6 @@ namespace CppLox
     StmtPtr forStatement();
     std::vector<StmtPtr> block();
     StmtPtr function(std::string kind);
+    StmtPtr classDeclaration();
   };
 }

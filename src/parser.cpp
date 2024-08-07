@@ -332,10 +332,27 @@ namespace CppLox
     return std::make_unique<Expression>(std::move(expr));
   }
 
+  StmtPtr Parser::classDeclaration()
+  {
+    Token name = consume(TokenType::IDENTIFIER, "Expect class name.");
+    consume(TokenType::LEFT_BRACE, "Expect '{' before class body.");
+    std::vector<StmtPtr> methods;
+    while (!check(TokenType::RIGHT_BRACE) && !isAtEnd())
+    {
+      methods.push_back(function("method"));
+    }
+    consume(RIGHT_BRACE, "Expect '}' after class body.");
+    return std::make_unique<Class>(name, std::move(methods));
+  }
+
   StmtPtr Parser::declaration()
   {
     try
     {
+      if (match({TokenType::CLASS}))
+      {
+        return classDeclaration();
+      }
       if (match({TokenType::FUN}))
       {
         return function("function");

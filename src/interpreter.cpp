@@ -13,12 +13,32 @@
 #include "cpplox/loxcallable.h"
 #include "cpplox/loxfunction.h"
 #include "cpplox/loxreturn.h"
+#include "cpplox/loxclass.h"
+#include "cpplox/loxinstance.h"
 #include "cpplox/runtime_error.h"
 #include "cpplox/environment.h"
 #include "cpplox/lox.h"
 
 namespace CppLox
 {
+  class LoxClass;
+
+  // Helper function to try casting to multiple types
+  template <typename... Ts>
+  std::shared_ptr<LoxCallable> try_cast(const std::any &value)
+  {
+    std::shared_ptr<LoxCallable> result;
+    (... || [&]()
+     {
+        try {
+            result = std::any_cast<std::shared_ptr<Ts>>(value);
+            return true;
+        } catch (const std::bad_any_cast&) {
+            return false;
+        } }());
+    return result;
+  }
+
   std::any Interpreter::visitBinaryExpr(const Binary *expr)
   {
     std::any left = evaluate(*expr->left);
@@ -163,6 +183,10 @@ namespace CppLox
       return std::any_cast<bool>(obj) ? "true" : "false";
     if (obj.type() == typeid(std::string))
       return std::any_cast<std::string>(obj);
+    if (obj.type() == typeid(std::shared_ptr<LoxInstance>))
+      return std::any_cast<std::shared_ptr<LoxInstance>>(obj)->toString();
+    if (obj.type() == typeid(std::shared_ptr<LoxClass>))
+      return std::any_cast<std::shared_ptr<LoxClass>>(obj)->toString();
     return "Unknown type";
   }
 
@@ -287,17 +311,7 @@ namespace CppLox
       arguments.push_back(evaluate(*argument));
     }
 
-    std::shared_ptr<LoxCallable> function;
-    try
-    {
-      // Extract the shared_ptr from std::any
-      function = std::any_cast<std::shared_ptr<LoxFunction>>(callee);
-    }
-    catch (const std::bad_any_cast &e)
-    {
-      function = std::any_cast<std::shared_ptr<ClockCallable>>(callee);
-    }
-
+    std::shared_ptr<LoxCallable> function = try_cast<LoxFunction, LoxClass, ClockCallable>(callee);
     if (!function)
     {
       throw RuntimeError(expr->paren, "Can only call functions and classes.");
@@ -344,5 +358,13 @@ namespace CppLox
       return environment->getAt(distance, name.lexeme);
     }
     return globals->get(name);
+  }
+
+  std::any Interpreter::visitClassStmt(const Class *stmt)
+  {
+    environment->define(stmt->name.lexeme, std::any());
+    std::shared_ptr<LoxClass> klass = std::make_shared<LoxClass>(stmt->name.lexeme);
+    environment->assign(stmt->name, klass);
+    return std::any();
   }
 };

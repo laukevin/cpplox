@@ -157,6 +157,7 @@ def generate_files(output_dir):
             "base_class": "Stmt",
             "visitor_classes": [
                 "Block      : vector<StmtPtr> statements",
+                "Class      : Token name, vector<StmtPtr> methods",
                 "Expression : ExprPtr expression",
                 "Print      : ExprPtr expression",
                 "Return     : Token keyword, ExprPtr value",

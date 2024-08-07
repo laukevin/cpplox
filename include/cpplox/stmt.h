@@ -13,6 +13,7 @@ namespace CppLox
 {
 
   class Block;
+  class Class;
   class Expression;
   class Print;
   class Return;
@@ -32,6 +33,7 @@ namespace CppLox
   {
   public:
     virtual R visitBlockStmt(const Block *stmt) = 0;
+    virtual R visitClassStmt(const Class *stmt) = 0;
     virtual R visitExpressionStmt(const Expression *stmt) = 0;
     virtual R visitPrintStmt(const Print *stmt) = 0;
     virtual R visitReturnStmt(const Return *stmt) = 0;
@@ -67,6 +69,25 @@ namespace CppLox
   };
 
   using BlockPtr = std::unique_ptr<Block>;
+
+  struct Class : public Stmt
+  {
+
+    Class(Token name, vector<StmtPtr> methods) : name(std::move(name)), methods(std::move(methods)) {}
+
+    std::any accept(BaseStmtVisitor &visitor) const override
+    {
+      auto visitor_ptr = dynamic_cast<StmtVisitor<std::any> *>(&visitor);
+      if (visitor_ptr)
+        return std::any(visitor_ptr->visitClassStmt(this));
+      return std::any();
+    }
+
+    Token name;
+    vector<StmtPtr> methods;
+  };
+
+  using ClassPtr = std::unique_ptr<Class>;
 
   struct Expression : public Stmt
   {
