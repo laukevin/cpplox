@@ -362,6 +362,20 @@ namespace CppLox
 
   std::any Interpreter::visitClassStmt(const Class *stmt)
   {
+    std::any superclass;
+    std::shared_ptr<LoxClass> superclassPtr;
+    if (stmt->superclass != nullptr)
+    {
+      superclass = evaluate(*stmt->superclass);
+      auto loxSuperclassCast = try_cast<LoxClass>(superclass);
+      if (loxSuperclassCast == nullptr)
+      {
+        auto superclassVar = dynamic_cast<Variable *>(stmt->superclass.get());
+        throw RuntimeError(superclassVar->name, "Superclass must be a class.");
+      }
+      superclassPtr = std::dynamic_pointer_cast<LoxClass>(loxSuperclassCast);
+    }
+
     environment->define(stmt->name.lexeme, std::any());
 
     std::unordered_map<std::string, std::shared_ptr<LoxFunction>> methods;
@@ -373,7 +387,7 @@ namespace CppLox
       methods[methodFn->name.lexeme] = function;
     }
 
-    std::shared_ptr<LoxClass> klass = std::make_shared<LoxClass>(stmt->name.lexeme, std::move(methods));
+    std::shared_ptr<LoxClass> klass = std::make_shared<LoxClass>(stmt->name.lexeme, superclassPtr, std::move(methods));
     environment->assign(stmt->name, klass);
 
     return std::any();

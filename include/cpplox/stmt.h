@@ -73,7 +73,7 @@ namespace CppLox
   struct Class : public Stmt
   {
 
-    Class(Token name, vector<StmtPtr> methods) : name(std::move(name)), methods(std::move(methods)) {}
+    Class(Token name, ExprPtr superclass, vector<StmtPtr> methods) : name(std::move(name)), superclass(std::move(superclass)), methods(std::move(methods)) {}
 
     std::any accept(BaseStmtVisitor &visitor) const override
     {
@@ -84,6 +84,7 @@ namespace CppLox
     }
 
     Token name;
+    ExprPtr superclass;
     vector<StmtPtr> methods;
   };
 

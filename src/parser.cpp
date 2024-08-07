@@ -349,6 +349,14 @@ namespace CppLox
   StmtPtr Parser::classDeclaration()
   {
     Token name = consume(TokenType::IDENTIFIER, "Expect class name.");
+
+    ExprPtr superclass;
+    if (match({TokenType::LESS}))
+    {
+      consume(TokenType::IDENTIFIER, "Expect superclass name.");
+      superclass = std::make_unique<Variable>(previous());
+    }
+
     consume(TokenType::LEFT_BRACE, "Expect '{' before class body.");
     std::vector<StmtPtr> methods;
     while (!check(TokenType::RIGHT_BRACE) && !isAtEnd())
@@ -356,7 +364,7 @@ namespace CppLox
       methods.push_back(function("method"));
     }
     consume(RIGHT_BRACE, "Expect '}' after class body.");
-    return std::make_unique<Class>(name, std::move(methods));
+    return std::make_unique<Class>(name, std::move(superclass), std::move(methods));
   }
 
   StmtPtr Parser::declaration()

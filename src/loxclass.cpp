@@ -36,6 +36,11 @@ namespace CppLox
       return methods[name];
     }
 
+    if (superclass != nullptr)
+    {
+      return superclass->findMethod(name);
+    }
+
     return nullptr;
   }
 
@@ -46,6 +51,12 @@ namespace CppLox
     {
       return it->second;
     }
+
+    if (superclass != nullptr)
+    {
+      return superclass->findMethod(name);
+    }
+
     return nullptr;
   }
 

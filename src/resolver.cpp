@@ -264,6 +264,20 @@ namespace CppLox
     declare(stmt->name);
     define(stmt->name);
 
+    if (stmt->superclass != nullptr)
+    {
+      auto *superclass = dynamic_cast<Variable *>(stmt->superclass.get());
+      if (superclass->name.lexeme == stmt->name.lexeme)
+      {
+        lox::error(superclass->name, "A class cannot inherit from itself.");
+      }
+    }
+
+    if (stmt->superclass != nullptr)
+    {
+      resolve(stmt->superclass);
+    }
+
     beginScope();
     topScope()["this"] = true;
 
