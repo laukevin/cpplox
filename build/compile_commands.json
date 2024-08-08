@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/interpreter.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/interpreter.cpp.o"
+},
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/lox.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/lox.cpp.o"
+},
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/loxclass.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/loxclass.cpp.o"
+},
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/loxinstance.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/loxinstance.cpp.o"
+},
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/parser.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/parser.cpp.o"
+},
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/resolver.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/resolver.cpp.o"
+},
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/scanner.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/scanner.cpp.o"
+},
+{
+  "directory": "/Users/kevinlau/code/compilers/crafting/cpplox/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/kevinlau/code/compilers/crafting/cpplox/include -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o CMakeFiles/cpplox.dir/src/token.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp",
+  "file": "/Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp",
+  "output": "CMakeFiles/cpplox.dir/src/token.cpp.o"
+}
+]
