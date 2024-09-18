@@ -73,113 +73,113 @@ CMakeFiles/cpplox.dir/src/interpreter.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/interpreter.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp
 CMakeFiles/cpplox.dir/src/interpreter.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpplox.dir/src/interpreter.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/interpreter.cpp.o -MF CMakeFiles/cpplox.dir/src/interpreter.cpp.o.d -o CMakeFiles/cpplox.dir/src/interpreter.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/interpreter.cpp.o -MF CMakeFiles/cpplox.dir/src/interpreter.cpp.o.d -o CMakeFiles/cpplox.dir/src/interpreter.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp
 
 CMakeFiles/cpplox.dir/src/interpreter.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/interpreter.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp > CMakeFiles/cpplox.dir/src/interpreter.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp > CMakeFiles/cpplox.dir/src/interpreter.cpp.i
 
 CMakeFiles/cpplox.dir/src/interpreter.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/interpreter.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp -o CMakeFiles/cpplox.dir/src/interpreter.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/interpreter.cpp -o CMakeFiles/cpplox.dir/src/interpreter.cpp.s
 
 CMakeFiles/cpplox.dir/src/lox.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/lox.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp
 CMakeFiles/cpplox.dir/src/lox.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cpplox.dir/src/lox.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/lox.cpp.o -MF CMakeFiles/cpplox.dir/src/lox.cpp.o.d -o CMakeFiles/cpplox.dir/src/lox.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/lox.cpp.o -MF CMakeFiles/cpplox.dir/src/lox.cpp.o.d -o CMakeFiles/cpplox.dir/src/lox.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp
 
 CMakeFiles/cpplox.dir/src/lox.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/lox.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp > CMakeFiles/cpplox.dir/src/lox.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp > CMakeFiles/cpplox.dir/src/lox.cpp.i
 
 CMakeFiles/cpplox.dir/src/lox.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/lox.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp -o CMakeFiles/cpplox.dir/src/lox.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/lox.cpp -o CMakeFiles/cpplox.dir/src/lox.cpp.s
 
 CMakeFiles/cpplox.dir/src/loxclass.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/loxclass.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp
 CMakeFiles/cpplox.dir/src/loxclass.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cpplox.dir/src/loxclass.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/loxclass.cpp.o -MF CMakeFiles/cpplox.dir/src/loxclass.cpp.o.d -o CMakeFiles/cpplox.dir/src/loxclass.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/loxclass.cpp.o -MF CMakeFiles/cpplox.dir/src/loxclass.cpp.o.d -o CMakeFiles/cpplox.dir/src/loxclass.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp
 
 CMakeFiles/cpplox.dir/src/loxclass.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/loxclass.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp > CMakeFiles/cpplox.dir/src/loxclass.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp > CMakeFiles/cpplox.dir/src/loxclass.cpp.i
 
 CMakeFiles/cpplox.dir/src/loxclass.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/loxclass.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp -o CMakeFiles/cpplox.dir/src/loxclass.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/loxclass.cpp -o CMakeFiles/cpplox.dir/src/loxclass.cpp.s
 
 CMakeFiles/cpplox.dir/src/loxinstance.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/loxinstance.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp
 CMakeFiles/cpplox.dir/src/loxinstance.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cpplox.dir/src/loxinstance.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/loxinstance.cpp.o -MF CMakeFiles/cpplox.dir/src/loxinstance.cpp.o.d -o CMakeFiles/cpplox.dir/src/loxinstance.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/loxinstance.cpp.o -MF CMakeFiles/cpplox.dir/src/loxinstance.cpp.o.d -o CMakeFiles/cpplox.dir/src/loxinstance.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp
 
 CMakeFiles/cpplox.dir/src/loxinstance.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/loxinstance.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp > CMakeFiles/cpplox.dir/src/loxinstance.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp > CMakeFiles/cpplox.dir/src/loxinstance.cpp.i
 
 CMakeFiles/cpplox.dir/src/loxinstance.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/loxinstance.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp -o CMakeFiles/cpplox.dir/src/loxinstance.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/loxinstance.cpp -o CMakeFiles/cpplox.dir/src/loxinstance.cpp.s
 
 CMakeFiles/cpplox.dir/src/parser.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/parser.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp
 CMakeFiles/cpplox.dir/src/parser.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cpplox.dir/src/parser.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/parser.cpp.o -MF CMakeFiles/cpplox.dir/src/parser.cpp.o.d -o CMakeFiles/cpplox.dir/src/parser.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/parser.cpp.o -MF CMakeFiles/cpplox.dir/src/parser.cpp.o.d -o CMakeFiles/cpplox.dir/src/parser.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp
 
 CMakeFiles/cpplox.dir/src/parser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/parser.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp > CMakeFiles/cpplox.dir/src/parser.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp > CMakeFiles/cpplox.dir/src/parser.cpp.i
 
 CMakeFiles/cpplox.dir/src/parser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/parser.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp -o CMakeFiles/cpplox.dir/src/parser.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/parser.cpp -o CMakeFiles/cpplox.dir/src/parser.cpp.s
 
 CMakeFiles/cpplox.dir/src/resolver.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/resolver.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp
 CMakeFiles/cpplox.dir/src/resolver.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cpplox.dir/src/resolver.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/resolver.cpp.o -MF CMakeFiles/cpplox.dir/src/resolver.cpp.o.d -o CMakeFiles/cpplox.dir/src/resolver.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/resolver.cpp.o -MF CMakeFiles/cpplox.dir/src/resolver.cpp.o.d -o CMakeFiles/cpplox.dir/src/resolver.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp
 
 CMakeFiles/cpplox.dir/src/resolver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/resolver.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp > CMakeFiles/cpplox.dir/src/resolver.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp > CMakeFiles/cpplox.dir/src/resolver.cpp.i
 
 CMakeFiles/cpplox.dir/src/resolver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/resolver.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp -o CMakeFiles/cpplox.dir/src/resolver.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/resolver.cpp -o CMakeFiles/cpplox.dir/src/resolver.cpp.s
 
 CMakeFiles/cpplox.dir/src/scanner.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/scanner.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp
 CMakeFiles/cpplox.dir/src/scanner.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/cpplox.dir/src/scanner.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/scanner.cpp.o -MF CMakeFiles/cpplox.dir/src/scanner.cpp.o.d -o CMakeFiles/cpplox.dir/src/scanner.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/scanner.cpp.o -MF CMakeFiles/cpplox.dir/src/scanner.cpp.o.d -o CMakeFiles/cpplox.dir/src/scanner.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp
 
 CMakeFiles/cpplox.dir/src/scanner.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/scanner.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp > CMakeFiles/cpplox.dir/src/scanner.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp > CMakeFiles/cpplox.dir/src/scanner.cpp.i
 
 CMakeFiles/cpplox.dir/src/scanner.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/scanner.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp -o CMakeFiles/cpplox.dir/src/scanner.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/scanner.cpp -o CMakeFiles/cpplox.dir/src/scanner.cpp.s
 
 CMakeFiles/cpplox.dir/src/token.cpp.o: CMakeFiles/cpplox.dir/flags.make
 CMakeFiles/cpplox.dir/src/token.cpp.o: /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp
 CMakeFiles/cpplox.dir/src/token.cpp.o: CMakeFiles/cpplox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/kevinlau/code/compilers/crafting/cpplox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/cpplox.dir/src/token.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/token.cpp.o -MF CMakeFiles/cpplox.dir/src/token.cpp.o.d -o CMakeFiles/cpplox.dir/src/token.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpplox.dir/src/token.cpp.o -MF CMakeFiles/cpplox.dir/src/token.cpp.o.d -o CMakeFiles/cpplox.dir/src/token.cpp.o -c /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp
 
 CMakeFiles/cpplox.dir/src/token.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpplox.dir/src/token.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp > CMakeFiles/cpplox.dir/src/token.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp > CMakeFiles/cpplox.dir/src/token.cpp.i
 
 CMakeFiles/cpplox.dir/src/token.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpplox.dir/src/token.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp -o CMakeFiles/cpplox.dir/src/token.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kevinlau/code/compilers/crafting/cpplox/src/token.cpp -o CMakeFiles/cpplox.dir/src/token.cpp.s
 
 # Object files for target cpplox
 cpplox_OBJECTS = \
